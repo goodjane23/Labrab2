@@ -1,0 +1,51 @@
+﻿<ui:FluentWindow 
+    x:Class="Labrab2.Views.NewResidentWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Default"
+    xmlns:local="clr-namespace:Labrab2.Views"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize"
+    mc:Ignorable="d"
+    Title="Новый постоялец" Height="380" Width="350">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ui:TitleBar Grid.Row="0" CanMaximize="False" Title="Новый постоялец"/>
+        
+        <Grid Grid.Row="1" Margin="8">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="ВНЕСИТЕ ДАННЫЕ" HorizontalAlignment="Center" FontSize="20" Foreground="SlateGray"/>
+                
+                <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Имя"/>
+                <ui:TextBox Margin="0,4,0,0" FontSize="14" Text="{Binding Name, Mode=TwoWay}"/>
+                
+                <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Паспорт"/>
+                <ui:TextBox Margin="0,4,0,0" FontSize="14" Text="{Binding Passport, Mode=TwoWay}"/>
+                
+                <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Телефон"/>
+                <ui:TextBox Margin="0,4,0,0" FontSize="14" Text="{Binding Phone, Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
+
+        <ui:Button 
+            Grid.Row="2" 
+            HorizontalAlignment="Stretch" 
+            Appearance="Primary" 
+            Margin="8" 
+            Content="Сохранить" 
+            Command="{Binding CreateResidentCommand}"/>
+    </Grid>
+</ui:FluentWindow>

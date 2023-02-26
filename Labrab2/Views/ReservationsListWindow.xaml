@@ -1,0 +1,89 @@
+﻿<ui:FluentWindow x:Class="Labrab2.Views.ReservationsListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:entities="clr-namespace:Labrab2.Data.Entities"
+        xmlns:local="clr-namespace:Labrab2.Views"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+        ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+        ExtendsContentIntoTitleBar="True"
+        WindowBackdropType="Mica"
+        WindowCornerPreference="Default"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="Список броней" Height="450" Width="650">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <ui:TitleBar Grid.Row="0" CanMaximize="False" Title="Список броней"/>
+        
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <ListView Grid.Column="0" Width="250"
+                      ItemsSource="{Binding Reservations}"
+                      SelectedItem="{Binding SelectedReservation, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type entities:ApartmentReservation}">
+                        <StackPanel Margin="8,4" Orientation="Vertical">
+                            <TextBlock Text="{Binding StringFormat=Апартаменты №{0}, Path=ApartmentId}"/>
+                            <TextBlock Margin="0,4,0,0" Text="{Binding Resident.FullName}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Grid Grid.Column="1" Margin="8,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <TextBlock Text="ИНФОРМАЦИЯ" HorizontalAlignment="Center" FontSize="20" Foreground="SlateGray"/>
+                    
+                    <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Даты пребывания"/>
+                    <StackPanel Margin="0,4,0,0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding StringFormat=С {0:dd.MM.yyyy}, Path=SelectedReservation.StartDate}" FontSize="14"/>
+                        <TextBlock Margin="4,0,0,0" Text="{Binding StringFormat=по {0:dd.MM.yyyy}, Path=SelectedReservation.EndDate}" FontSize="14"/>
+                    </StackPanel>
+                    
+                    <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Апартаменты"/>
+                    <TextBlock Margin="0,4,0,0" Text="{Binding StringFormat=№ {0}, Path=SelectedReservation.ApartmentId}" FontSize="14"/>
+                    
+                    <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Имя постояльца"/>
+                    <TextBlock Margin="0,4,0,0" Text="{Binding SelectedReservation.Resident.FullName}" FontSize="14"/>
+                    
+                    <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Паспорт"/>
+                    <TextBlock Margin="0,4,0,0" Text="{Binding SelectedReservation.Resident.Passport}" FontSize="14"/>
+                    
+                    <TextBlock Style="{StaticResource InfoLabelStyle}" Text="Телефон"/>
+                    <TextBlock Margin="0,4,0,0" Text="{Binding SelectedReservation.Resident.Phone}" FontSize="14"/>
+                </StackPanel>
+                
+                <ui:Button Grid.Row="1"
+                           Icon="CalendarCancel24"
+                           Appearance="Danger"
+                           Command="{Binding CancelReservationCommand}"
+                           CommandParameter="{Binding ElementName=snackbar}"
+                           HorizontalAlignment="Stretch"
+                           Content="Отменить бронь"/>
+                
+                <ui:Snackbar x:Name="snackbar"
+                             Icon="CalendarCancel24"
+                             Appearance="Success"
+                             Title="Бронь отменена"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>
